@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { avgRating, categoryEmoji, categoryLeaf, compressImage, today } from '../lib/util'
 import { store } from '../store'
 import type { Photo, Place, Space, User } from '../types'
-import Stars from './Stars'
+import Stars, { clampRating } from './Stars'
 
 interface Props {
   place: Place
@@ -134,7 +134,19 @@ export default function PlaceSheet({ place, space, user, onClose, onChanged, onD
             <>
               <div className="rate-row">
                 <Stars value={rating} onChange={setRating} size={34} />
-                <span>{rating ? rating.toFixed(1) : '별을 눌러주세요'}</span>
+                {rating ? (
+                  <span className="stepper">
+                    <button type="button" onClick={() => setRating(clampRating(rating - 0.1))} aria-label="0.1점 내리기">
+                      −
+                    </button>
+                    <b>{rating.toFixed(1)}</b>
+                    <button type="button" onClick={() => setRating(clampRating(rating + 0.1))} aria-label="0.1점 올리기">
+                      ＋
+                    </button>
+                  </span>
+                ) : (
+                  <span>별을 누르거나 밀어주세요</span>
+                )}
               </div>
               <textarea
                 placeholder="어땠나요? 메뉴, 분위기, 기억에 남는 일…"

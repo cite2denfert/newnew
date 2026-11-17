@@ -143,8 +143,10 @@ main { flex: 1; position: relative; min-height: 0; }
 .stars { position: relative; display: inline-block; line-height: 1; white-space: nowrap; letter-spacing: 1px; }
 .stars-bg { color: #e5dcd3; }
 .stars-fg { position: absolute; left: 0; top: 0; overflow: hidden; color: var(--star); }
-.stars-input { position: absolute; inset: 0; display: flex; }
-.stars-input button { flex: 1; }
+.stars-input { position: absolute; inset: -6px 0; cursor: pointer; touch-action: none; }
+.stepper { display: flex; align-items: center; gap: 6px; color: var(--text); }
+.stepper b { min-width: 2.2em; text-align: center; font-size: 18px; }
+.stepper button { width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--line); background: #fff; font-size: 16px; }
 
 /* 목록 */
 .list { position: absolute; inset: 0; overflow-y: auto; padding: calc(12px + env(safe-area-inset-top)) 12px 12px; }

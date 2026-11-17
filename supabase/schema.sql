@@ -36,7 +36,7 @@ create table if not exists public.places (
 create table if not exists public.reviews (
   place_id uuid not null references public.places (id) on delete cascade,
   user_id uuid not null default auth.uid() references auth.users (id) on delete cascade,
-  rating numeric(2, 1) not null check (rating between 0.5 and 5),
+  rating numeric(2, 1) not null check (rating between 0.1 and 5),
   comment text not null default '',
   visited_on date,
   updated_at timestamptz not null default now(),
@@ -50,6 +50,10 @@ create table if not exists public.photos (
   path text not null unique,
   created_at timestamptz not null default now()
 );
+
+-- 예전 스키마(0.5점 단위)로 만든 DB도 0.1점부터 허용하도록 맞춘다
+alter table public.reviews drop constraint if exists reviews_rating_check;
+alter table public.reviews add constraint reviews_rating_check check (rating between 0.1 and 5);
 
 create index if not exists reviews_place_idx on public.reviews (place_id);
 create index if not exists photos_place_idx on public.photos (place_id);
